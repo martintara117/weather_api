@@ -1,18 +1,19 @@
 let apiKey = "85b394aecf7ef94b9d97722dd2a1d6b1";
-let city = "Atlanta";
-let queryUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
-let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
-let button = document.getElementById("test");
+let queryUrl = `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&units=imperial&q=`;
+let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&q=`;
 
-function citySearch() {
+$("nav > button").on("click", function () {
+  let city = $("nav input").val();
+  citySearch(city);
+});
+
+function citySearch(city) {
   $.ajax({
-    url: queryUrl,
+    url: queryUrl + city,
     method: "GET",
-  }).then(function (response) {
-    console.log(response);
-  });
+  }).then(currentWeather);
   $.ajax({
-    url: forecastUrl,
+    url: forecastUrl + city,
     method: "GET",
   }).then((forecastResponse) => {
     console.log(forecastResponse);
@@ -21,4 +22,15 @@ function citySearch() {
     }
   });
 }
-button.addEventListener("click", citySearch);
+function currentWeather(response) {
+  let city = response.name;
+  let temp = response.main.temp;
+  let humidity = response.main.humidity;
+  let windSpeed = response.wind.speed;
+  $("main section:first-child").html(`
+    <h2>${city}</h2>
+    <p>Temperature: ${temp}</p>
+    <p>Humidity: ${humidity}</p>
+    <p>Wind Speed: ${windSpeed}</p>
+  `);
+}
