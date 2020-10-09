@@ -19,6 +19,7 @@ function citySearch(city) {
     url: queryUrl + city,
     method: "GET",
   }).then(currentWeather);
+  // .then(saveCity);
   $.ajax({
     url: forecastUrl + city,
     method: "GET",
@@ -38,6 +39,7 @@ function currentWeather(response) {
     <p>Humidity: ${humidity}%</p>
     <p>Wind Speed: ${windSpeed} MPH</p>
   `);
+  saveCity(city);
 }
 function forecastWeather(response) {
   let html = "<h3>Five-Day Forecast</h3>";
@@ -57,6 +59,14 @@ function forecastWeather(response) {
     `;
   }
   $("main section:last-child").html(html);
+}
+
+function saveCity(city) {
+  let data = getStorageData();
+  if (!data.includes(city)) {
+    data.push(city);
+    setStorageData(data);
+  }
 }
 
 function getStorageData() {
