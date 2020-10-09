@@ -7,6 +7,13 @@ $("nav > button").on("click", function () {
   citySearch(city);
 });
 
+let searchedCities = getStorageData();
+let html = "";
+for (let city of searchedCities) {
+  html += `<button>${city}</button>`;
+}
+$("nav footer").html(html);
+
 function citySearch(city) {
   $.ajax({
     url: queryUrl + city,
