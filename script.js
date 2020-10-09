@@ -19,11 +19,14 @@ function citySearch(city) {
 }
 function currentWeather(response) {
   let city = response.name;
+  let icon = response.weather[0].icon;
   let temp = response.main.temp;
   let humidity = response.main.humidity;
   let windSpeed = response.wind.speed;
   $("main section:first-child").html(`
-    <h2>${city}</h2>
+    <h2>${city}
+    <img src="http://openweathermap.org/img/wn/${icon}@4x.png" />
+    </h2>
     <p>Temperature: ${temp}&deg;F</p>
     <p>Humidity: ${humidity}%</p>
     <p>Wind Speed: ${windSpeed} MPH</p>
@@ -47,4 +50,16 @@ function forecastWeather(response) {
     `;
   }
   $("main section:last-child").html(html);
+}
+
+function getStorageData() {
+  let data = localStorage.getItem("citiesSearched");
+  if (!data) {
+    return [];
+  }
+  return JSON.parse(data);
+}
+
+function setStorageData(data) {
+  localStorage.setItem("citiesSearched", JSON.stringify(data));
 }
