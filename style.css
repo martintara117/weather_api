@@ -1,0 +1,35 @@
+figure {
+  display: inline-block;
+  width: 115px;
+  background-color: lightblue;
+  border-radius: 10px;
+  padding: 2px;
+}
+
+h1 {
+  text-align: center;
+}
+
+label {
+  font-size: 1.25em;
+}
+
+input {
+  padding: 5px 12px;
+  border-radius: 8px;
+  background-color: aliceblue;
+}
+
+nav > button {
+  font-size: 1.25em;
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 8px;
+}
+
+nav,
+main {
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px;
+}
