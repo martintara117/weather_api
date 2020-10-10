@@ -33,7 +33,7 @@ function currentWeather(response) {
   let windSpeed = response.wind.speed;
   $("main section:first-child").html(`
     <h2>${city}
-    <img src="http://openweathermap.org/img/wn/${icon}@4x.png" />
+    <img src="http://openweathermap.org/img/wn/${icon}@2x.png" />
     </h2>
     <p>Temperature: ${temp}&deg;F</p>
     <p>Humidity: ${humidity}%</p>
