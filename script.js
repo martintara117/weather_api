@@ -16,6 +16,10 @@ function searchBtn() {
     html += `<button>${city}</button>`;
   }
   $("nav footer").html(html);
+  $("nav footer button").click(function () {
+    let city = $(this).text();
+    citySearch(city);
+  });
 }
 
 function citySearch(city) {
@@ -29,6 +33,7 @@ function citySearch(city) {
     method: "GET",
   }).then(forecastWeather);
 }
+
 function currentWeather(response) {
   let city = response.name;
   let icon = response.weather[0].icon;
