@@ -7,12 +7,16 @@ $("nav > button").on("click", function () {
   citySearch(city);
 });
 
-let searchedCities = getStorageData();
-let html = "";
-for (let city of searchedCities) {
-  html += `<button>${city}</button>`;
+searchBtn();
+
+function searchBtn() {
+  let searchedCities = getStorageData();
+  let html = "";
+  for (let city of searchedCities) {
+    html += `<button>${city}</button>`;
+  }
+  $("nav footer").html(html);
 }
-$("nav footer").html(html);
 
 function citySearch(city) {
   $.ajax({
@@ -33,27 +37,32 @@ function currentWeather(response) {
   let windSpeed = response.wind.speed;
   $("main section:first-child").html(`
     <h2>${city}
-    <img src="http://openweathermap.org/img/wn/${icon}@2x.png" />
+    <img src="http://openweathermap.org/img/wn/${icon}.png" />
     </h2>
     <p>Temperature: ${temp}&deg;F</p>
     <p>Humidity: ${humidity}%</p>
     <p>Wind Speed: ${windSpeed} MPH</p>
   `);
-  saveCity(city);
+  let isNewCity = saveCity(city);
+  if (isNewCity) {
+    searchBtn();
+  }
 }
 function forecastWeather(response) {
-  let html = "<h3>Five-Day Forecast</h3>";
+  let html = "<h3>Five-Day Forecast:</h3>";
   for (let i = 0; i < response.list.length; i += 8) {
     let day = response.list[i];
-    let date = day.dt_txt;
+    let myTrim = new RegExp(/^\d+-\d+-\d+/, "gmi");
+    let execArr = myTrim.exec(day.dt_txt);
+    let date = execArr[0];
     let icon = day.weather[0].icon;
     let temp = day.main.temp;
     let humidity = day.main.humidity;
     html += `
       <figure> 
         <h5>${date}</h5>
-        <img src="http://openweathermap.org/img/wn/${icon}@2x.png" />
-        <p>Temperature: ${temp}&deg;F</p>
+        <img src="http://openweathermap.org/img/wn/${icon}.png" />
+        <p>Temp: ${temp}&deg;F</p>
         <p>Humidity: ${humidity}%</p>
       </figure>
     `;
@@ -66,7 +75,9 @@ function saveCity(city) {
   if (!data.includes(city)) {
     data.push(city);
     setStorageData(data);
+    return true;
   }
+  return false;
 }
 
 function getStorageData() {
