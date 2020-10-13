@@ -1,3 +1,8 @@
+body {
+  background-image: url("./assets/images/weather.jpeg");
+  background-repeat: no-repeat;
+}
+
 figure {
   display: inline-block;
   width: 115px;
@@ -13,12 +18,23 @@ h1 {
   text-align: center;
 }
 
+header {
+  background-color: rgb(209, 121, 121);
+}
+nav > button {
+  font-size: 1.25em;
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 3px;
+  background-color: cadetblue;
+  color: white;
+}
+
 nav {
-  background-color: whitesmoke;
-  margin-bottom: 100%;
-  padding-bottom: 100%;
-  padding-left: 10px;
-  padding-right: 10px;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 10px;
 }
 
 label {
@@ -26,19 +42,14 @@ label {
   font-weight: 500;
 }
 
+.marginator {
+  margin-top: 16px;
+}
+
 input {
   padding: 3px 12px;
   border-radius: 3px;
   background-color: rgb(249, 253, 253);
-}
-
-nav > button {
-  font-size: 1.25em;
-  padding: 3px 12px;
-  border: 0;
-  border-radius: 3px;
-  background-color: cadetblue;
-  color: white;
 }
 
 nav,
@@ -57,6 +68,12 @@ main {
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 5px;
+}
+.something {
+  border: solid;
+  border-width: 1px;
+  border-color: rgb(185, 185, 185);
+  background-color: rgba(95, 158, 160, 0.4);
 }
 
 .weatherIcons {
@@ -77,9 +94,3 @@ footer > button {
   border-color: rgb(185, 185, 185);
   border-width: 1px;
 }
-
-/* footer {
-  border: solid;
-  border-width: 1px;
-  border-color: rgb(185, 185, 185);
-} */

@@ -1,7 +1,8 @@
 let apiKey = "85b394aecf7ef94b9d97722dd2a1d6b1";
 let queryUrl = `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&units=imperial&q=`;
 let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&units=imperial&q=`;
-
+let uvUrl = `http://api.openweathermap.org/data/2.5/uvi?lat={lat}&lon={lon}&appid=${apiKey}`;
+console.log(uvUrl);
 pageLoad();
 
 function pageLoad() {
@@ -11,6 +12,9 @@ function pageLoad() {
   });
   searchBtn();
   let lastSearch = getLastSearch();
+  if (!lastSearch) {
+    citySearch("Atlanta");
+  }
   if (lastSearch) {
     citySearch(lastSearch);
   }
@@ -39,6 +43,11 @@ function citySearch(city) {
     url: forecastUrl + city,
     method: "GET",
   }).then(forecastWeather);
+  $.ajax({
+    url: uvUrl + lat,
+    lon,
+    method: "GET",
+  }).then(currentWeather);
 }
 
 function currentWeather(response) {
@@ -71,7 +80,7 @@ function forecastWeather(response) {
     let temp = day.main.temp;
     let humidity = day.main.humidity;
     html += `
-      <figure> 
+      <figure class="something"> 
         <h5>${date}</h5>
         <img src="http://openweathermap.org/img/wn/${icon}.png" />
         <p>Temp: ${temp}&deg;F</p>
