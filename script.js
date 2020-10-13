@@ -2,12 +2,19 @@ let apiKey = "85b394aecf7ef94b9d97722dd2a1d6b1";
 let queryUrl = `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&units=imperial&q=`;
 let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&units=imperial&q=`;
 
-$("nav > button").on("click", function () {
-  let city = $("nav input").val();
-  citySearch(city);
-});
+pageLoad();
 
-searchBtn();
+function pageLoad() {
+  $("nav > button").on("click", function () {
+    let city = $("nav input").val();
+    citySearch(city);
+  });
+  searchBtn();
+  let lastSearch = getLastSearch();
+  if (lastSearch) {
+    citySearch(lastSearch);
+  }
+}
 
 function searchBtn() {
   let searchedCities = getStorageData();
@@ -76,6 +83,7 @@ function forecastWeather(response) {
 }
 
 function saveCity(city) {
+  setLastSearch(city);
   let data = getStorageData();
   if (!data.includes(city)) {
     data.push(city);
@@ -95,4 +103,12 @@ function getStorageData() {
 
 function setStorageData(data) {
   localStorage.setItem("citiesSearched", JSON.stringify(data));
+}
+
+function getLastSearch() {
+  return localStorage.getItem("lastCitySearched");
+}
+
+function setLastSearch(city) {
+  localStorage.setItem("lastCitySearched", city);
 }
