@@ -1,10 +1,35 @@
+// APPLICATION VARIABLES
 let apiKey = "85b394aecf7ef94b9d97722dd2a1d6b1";
 let queryUrl = `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&units=imperial&q=`;
 let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&units=imperial&q=`;
-let uvUrl = `http://api.openweathermap.org/data/2.5/uvi?lat={lat}&lon={lon}&appid=${apiKey}`;
-console.log(uvUrl);
-pageLoad();
 
+// function for UVIndex response
+showUVIndex();
+function showUVIndex(ln, lt) {
+  let uvUrl =
+    "http://api.openweathermap.org/data/2.5/uvi?appid=" +
+    apiKey +
+    "&lat=" +
+    lt +
+    "&lon=" +
+    ln;
+  $.ajax({
+    url: uvUrl,
+    method: "GET",
+  }).then(function (response) {
+    currentUVIndex.html("" + response.value);
+    currentUVIndex
+      .css("background", "#C20C0C")
+      .css("color", "white")
+      .css("padding", "5px")
+      .css("border-radius", "3px");
+  });
+}
+
+// APPLICATION LOGIC
+
+// LOADS THE FIRST PAGE - AUTOMATICALLY LOADS ATLANTA FORECAST IF NO PREVIOUS SEARCH HAS BEEN MADE
+pageLoad();
 function pageLoad() {
   $("nav > button").on("click", function () {
     let city = $("nav input").val();
@@ -19,7 +44,7 @@ function pageLoad() {
     citySearch(lastSearch);
   }
 }
-
+// SEARCHES FOR CITIES
 function searchBtn() {
   let searchedCities = getStorageData();
   let html = "";
@@ -32,7 +57,7 @@ function searchBtn() {
     citySearch(city);
   });
 }
-
+// API CALLS
 function citySearch(city) {
   $.ajax({
     url: queryUrl + city,
@@ -43,19 +68,19 @@ function citySearch(city) {
     url: forecastUrl + city,
     method: "GET",
   }).then(forecastWeather);
-  $.ajax({
-    url: uvUrl + lat,
-    lon,
-    method: "GET",
-  }).then(currentWeather);
 }
 
+// CURRENT WEATHER
 function currentWeather(response) {
+  console.log(response);
+  // DOM VARIABLES
   let city = response.name;
   let icon = response.weather[0].icon;
   let temp = response.main.temp;
   let humidity = response.main.humidity;
   let windSpeed = response.wind.speed;
+  let UVIndex = showUVIndex(response.coord.lon, response.coord.lat);
+  // let uvIndex = response.coord;
   $("main section:first-child").html(`
     <h2>${city}
     <img src="http://openweathermap.org/img/wn/${icon}.png" />
@@ -63,15 +88,20 @@ function currentWeather(response) {
     <p>Temperature: ${temp}&deg;F</p>
     <p>Humidity: ${humidity}%</p>
     <p>Wind Speed: ${windSpeed} MPH</p>
+    <p> UV Index: $(UVIndex) </p>
   `);
   let isNewCity = saveCity(city);
   if (isNewCity) {
     searchBtn();
   }
 }
+
+function uvIndex(response) {}
+// FIVE DAY WEATHER ICONS
 function forecastWeather(response) {
   let html = "<h3>Five-Day Forecast:</h3>";
   for (let i = 0; i < response.list.length; i += 8) {
+    // DOM VARIABLES
     let day = response.list[i];
     let myTrim = new RegExp(/^\d+-\d+-\d+/, "gmi");
     let execArr = myTrim.exec(day.dt_txt);
@@ -80,7 +110,7 @@ function forecastWeather(response) {
     let temp = day.main.temp;
     let humidity = day.main.humidity;
     html += `
-      <figure class="something"> 
+      <figure class="border"> 
         <h5>${date}</h5>
         <img src="http://openweathermap.org/img/wn/${icon}.png" />
         <p>Temp: ${temp}&deg;F</p>
@@ -90,7 +120,7 @@ function forecastWeather(response) {
   }
   $("main section:last-child").html(html);
 }
-
+// SAVES CITY TO BUTTON
 function saveCity(city) {
   setLastSearch(city);
   let data = getStorageData();
@@ -101,7 +131,7 @@ function saveCity(city) {
   }
   return false;
 }
-
+// STORAGE FUNCTIONS
 function getStorageData() {
   let data = localStorage.getItem("citiesSearched");
   if (!data) {

@@ -6,7 +6,6 @@ body {
 figure {
   display: inline-block;
   width: 115px;
-  background-color: lightblue;
   padding-top: 10px;
   border-radius: 3px;
   margin-top: 3px;
@@ -16,10 +15,18 @@ figure {
 
 h1 {
   text-align: center;
+  color: rgb(54, 88, 88);
 }
 
 header {
-  background-color: rgb(209, 121, 121);
+  background-color: transparent;
+  background-image: linear-gradient(
+    rgb(223, 201, 223),
+    rgba(253, 227, 231, 0.01)
+  );
+  border-bottom: solid;
+  border-width: 2px;
+  border-color: rgb(165, 180, 180);
 }
 nav > button {
   font-size: 1.25em;
@@ -31,7 +38,6 @@ nav > button {
 }
 
 nav {
-  border-radius: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
   padding: 10px;
@@ -42,14 +48,15 @@ label {
   font-weight: 500;
 }
 
-.marginator {
-  margin-top: 16px;
+.margin {
+  margin-top: 15px;
 }
 
 input {
   padding: 3px 12px;
   border-radius: 3px;
-  background-color: rgb(249, 253, 253);
+  border: none;
+  background-color: rgba(255, 255, 255, 0.966);
 }
 
 nav,
@@ -60,27 +67,24 @@ main {
 }
 
 .weatherOverview {
-  border: solid;
-  border-width: 1px;
-  border-color: rgb(185, 185, 185);
   padding: 10px;
-  border-radius: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 5px;
 }
-.something {
+.border {
   border: solid;
+  border-radius: 5px;
   border-width: 1px;
   border-color: rgb(185, 185, 185);
-  background-color: rgba(95, 158, 160, 0.4);
+  background-color: rgba(95, 158, 160, 0.45);
 }
 
 .weatherIcons {
   padding-top: 15px;
   margin-top: 5px;
   margin-bottom: 5px;
-  margin-left: 5px;
+  margin-left: 15px;
 }
 
 footer > button {
@@ -88,8 +92,9 @@ footer > button {
   width: 100%;
   padding: 10px;
   text-align: left;
+  border: solid;
   border-radius: 3px;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.966);
   color: dimgray;
   border-color: rgb(185, 185, 185);
   border-width: 1px;
