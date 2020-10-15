@@ -4,7 +4,6 @@ let queryUrl = `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&
 let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&units=imperial&q=`;
 
 // function for UVIndex response
-showUVIndex();
 function showUVIndex(ln, lt) {
   let uvUrl =
     "http://api.openweathermap.org/data/2.5/uvi?appid=" +
@@ -17,12 +16,7 @@ function showUVIndex(ln, lt) {
     url: uvUrl,
     method: "GET",
   }).then(function (response) {
-    currentUVIndex.html("" + response.value);
-    currentUVIndex
-      .css("background", "#C20C0C")
-      .css("color", "white")
-      .css("padding", "5px")
-      .css("border-radius", "3px");
+    $("main section:first-child").append("UV Index: " + response.value);
   });
 }
 
@@ -72,24 +66,24 @@ function citySearch(city) {
 
 // CURRENT WEATHER
 function currentWeather(response) {
-  console.log(response);
   // DOM VARIABLES
   let city = response.name;
   let icon = response.weather[0].icon;
   let temp = response.main.temp;
   let humidity = response.main.humidity;
   let windSpeed = response.wind.speed;
-  let UVIndex = showUVIndex(response.coord.lon, response.coord.lat);
+  let lat = response.coord.lat;
+  let lon = response.coord.lon;
   // let uvIndex = response.coord;
   $("main section:first-child").html(`
-    <h2>${city}
-    <img src="http://openweathermap.org/img/wn/${icon}.png" />
-    </h2>
-    <p>Temperature: ${temp}&deg;F</p>
-    <p>Humidity: ${humidity}%</p>
-    <p>Wind Speed: ${windSpeed} MPH</p>
-    <p> UV Index: $(UVIndex) </p>
+  <h2>${city}
+  <img src="http://openweathermap.org/img/wn/${icon}.png" />
+  </h2>
+  <p>Temperature: ${temp}&deg;F</p>
+  <p>Humidity: ${humidity}%</p>
+  <p>Wind Speed: ${windSpeed} MPH</p>
   `);
+  showUVIndex(lon, lat);
   let isNewCity = saveCity(city);
   if (isNewCity) {
     searchBtn();
