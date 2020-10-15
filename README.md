@@ -40,7 +40,7 @@ THEN I am presented with the last searched city forecast
 ## Usage
 
 Please view gif to see the how the quiz performance.
-![daily-planner](assets/daily-planner.gif)
+![weather_api](assets/images/weather-dashboard.gif)
 
 To view live visit: [click here.](https://martintara117.github.io/weather_dashboard/)
 
